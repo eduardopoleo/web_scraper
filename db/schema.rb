@@ -18,8 +18,8 @@ ActiveRecord::Schema.define(version: 20151002014112) do
     t.string   "last_name"
     t.string   "name"
     t.string   "title"
-    t.decimal  "salary"
-    t.decimal  "taxable_benefits"
+    t.float    "salary"
+    t.float    "taxable_benefits"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

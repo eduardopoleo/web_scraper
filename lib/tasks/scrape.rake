@@ -35,7 +35,7 @@ namespace :scrape do
     end
 
     final_time = Time.now
-    time_elapse = (final_time - initial_time)/3600
-    puts "--->Time elapsed: #{time_elapse} hours"
+    time_elapse = (final_time - initial_time)
+    puts "--->Time elapsed: #{time_elapse} seconds"
   end
 end
