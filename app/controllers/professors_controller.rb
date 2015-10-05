@@ -1,11 +1,10 @@
 class ProfessorsController < ApplicationController
   def index
   end
-  
+
   def overall_salaries
     @data = Professor.overall_salaries
     respond_to do |format|
-      format.html
       format.json { render json: @data }
     end
   end
