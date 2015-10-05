@@ -5,9 +5,9 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'professors#overall_salaries'
 
-
+  resources :professors, only: [:index]
   # Example of regular route:
-  get 'overall_salaries' => 'professors#overall_salaries'
+  get 'overall_salaries' => 'professors#overall_salaries', :defaults => { :format => 'json' }
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
