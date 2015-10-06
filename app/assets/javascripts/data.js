@@ -15,15 +15,20 @@ $(function() {
   function draw(data) {
     var margin = {top: 40, right: 50, bottom: 40, left: 150},
     width = 960 - margin.left - margin.right,
-    barHeight = 40;
+    barHeight = 40,
+    height = barHeight * data.length + margin.top + margin.bottom;
 
     var x = d3.scale.linear()
         .range([0, width])
         .domain([0, d3.max(data, function(d) { return d.value; })]);
 
+    var xAxis = d3.svg.axis()
+      .scale(x)
+      .orient("bottom");
+
     var chart = d3.select(".chart")
       .attr("width", width + margin.left + margin.right)
-      .attr("height", barHeight * data.length + margin.top + margin.bottom)
+      .attr("height", height)
     .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -41,5 +46,9 @@ $(function() {
         .attr("y", barHeight / 2.5)
         .attr("dy", ".35em")
         .text(function(d) { return d.value; });
+
+    chart.append("g")
+      .attr("class", "axis")
+      .call(xAxis);
   }
 });
