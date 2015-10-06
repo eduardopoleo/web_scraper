@@ -29,7 +29,7 @@ $(function() {
 
     var y = d3.scale.ordinal()
         .domain(data.map(function(d) {return d.name; }))
-        .rangeRoundBands([0, height], .1);
+        .rangeRoundBands([0, height - 100], -1);
 
     var yAxis = d3.svg.axis()
         .scale(y)
