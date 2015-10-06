@@ -13,8 +13,8 @@ $(function() {
    });
 
   function draw(data) {
-    
-    var width = 1000,
+    var margin = {top: 40, right: 50, bottom: 40, left: 150},
+    width = 960 - margin.left - margin.right,
     barHeight = 40;
 
     var x = d3.scale.linear()
@@ -22,9 +22,10 @@ $(function() {
         .domain([0, d3.max(data, function(d) { return d.value; })]);
 
     var chart = d3.select(".chart")
-        .attr("width", width);
-
-    chart.attr("height", barHeight * data.length);
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", barHeight * data.length + margin.top + margin.bottom)
+    .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     var bar = chart.selectAll("g")
         .data(data)
