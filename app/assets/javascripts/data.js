@@ -13,7 +13,8 @@ $(function() {
    });
 
   function draw(data) {
-    var margin = {top: 40, right: 50, bottom: 40, left: 150},
+    var that = this;
+    var margin = {top: 40, right: 50, bottom: 40, left: 200},
     width = 960 - margin.left - margin.right,
     barHeight = 40,
     height = barHeight * data.length + margin.top + margin.bottom;
@@ -25,6 +26,14 @@ $(function() {
     var xAxis = d3.svg.axis()
       .scale(x)
       .orient("bottom");
+
+    var y = d3.scale.ordinal()
+        .domain(data.map(function(d) {return d.name; }))
+        .rangeRoundBands([0, height], .1);
+
+    var yAxis = d3.svg.axis()
+        .scale(y)
+        .orient("left");
 
     var chart = d3.select(".chart")
       .attr("width", width + margin.left + margin.right)
@@ -49,6 +58,11 @@ $(function() {
 
     chart.append("g")
       .attr("class", "axis")
+      .attr("transform", "translate(0," + (height - 70) + ")")
       .call(xAxis);
+
+    chart.append("g")
+     .attr("class", "axis")
+     .call(yAxis);
   }
 });
