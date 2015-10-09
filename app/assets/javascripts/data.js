@@ -3,6 +3,7 @@ $(function() {
   //When a button with that class gets tickle it passes the info down,(maybe just and index and gets parsed in here)
   $('.choice').click(function(e) {
     var url = e.target.defaultValue
+    $('.chart').empty()
 
     $.ajax({
      type: "GET",
