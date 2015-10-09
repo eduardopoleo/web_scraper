@@ -2,8 +2,22 @@ class ProfessorsController < ApplicationController
   def index
   end
 
-  def overall_salaries
-    @data = Professor.overall_salaries
+  def all_salaries
+    @data = Professor.all_salaries
+    respond_to do |format|
+      format.json { render json: @data }
+    end
+  end
+
+  def professors_only
+    @data = Professor.professors_only
+    respond_to do |format|
+      format.json { render json: @data }
+    end
+  end
+
+  def administrative_staff
+    @data = Professor.administrative_staff
     respond_to do |format|
       format.json { render json: @data }
     end

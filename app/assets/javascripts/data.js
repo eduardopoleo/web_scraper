@@ -1,8 +1,13 @@
 $(function() {
- $.ajax({
+  //wrap this on a onchange for all the radio buttons with the same class
+  //When a button with that class gets tickle it passes the info down,(maybe just and index and gets parsed in here)
+  $('.choice').click(function(e) {
+    var url = e.target.defaultValue
+
+    $.ajax({
      type: "GET",
      contentType: "application/json; charset=utf-8",
-     url: 'overall_salaries',
+     url: url,
      dataType: 'json',
      success: function (data) {
        draw(data["professors"]);
@@ -29,7 +34,7 @@ $(function() {
 
     var y = d3.scale.ordinal()
         .domain(data.map(function(d) {return d.name; }))
-        .rangeRoundBands([0, height - 100], -1);
+        .rangeRoundBands([10  , height - 100], -1);
 
     var yAxis = d3.svg.axis()
         .scale(y)
@@ -64,5 +69,6 @@ $(function() {
     chart.append("g")
      .attr("class", "axis")
      .call(yAxis);
-  }
+    }
+  });
 });
