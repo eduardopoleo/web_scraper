@@ -32,8 +32,10 @@ $(function() {
 
     var x = d3.scale.linear()
         .range([0, width])
-        .domain([0, d3.max(data, function(d) { return d.value; })]);
-
+        .domain([0, 245852.56]);
+        //This magic number is the max value among all my data sets
+        // I do this so that the bars make sense agains each other.
+        
     var xAxis = d3.svg.axis()
       .scale(x)
       .orient("bottom");
