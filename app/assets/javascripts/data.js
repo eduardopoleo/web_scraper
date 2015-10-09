@@ -1,10 +1,13 @@
 $(function() {
-  //wrap this on a onchange for all the radio buttons with the same class
-  //When a button with that class gets tickle it passes the info down,(maybe just and index and gets parsed in here)
+  ajax_call('all_salaries')
+
   $('.choice').click(function(e) {
     var url = e.target.defaultValue
     $('.chart').empty()
+    ajax_call(url)
+  });
 
+  function ajax_call(url) {
     $.ajax({
      type: "GET",
      contentType: "application/json; charset=utf-8",
@@ -16,8 +19,10 @@ $(function() {
      error: function (result) {
          error();
      }
-   });
-
+    });
+  }
+  //wrap this on a onchange for all the radio buttons with the same class
+  //When a button with that class gets tickle it passes the info down,(maybe just and index and gets parsed in here)
   function draw(data) {
     var that = this;
     var margin = {top: 40, right: 50, bottom: 40, left: 200},
@@ -70,6 +75,5 @@ $(function() {
     chart.append("g")
      .attr("class", "axis")
      .call(yAxis);
-    }
-  });
+  }
 });
