@@ -35,7 +35,7 @@ $(function() {
         .domain([0, 245852.56]);
         //This magic number is the max value among all my data sets
         // I do this so that the bars make sense agains each other.
-        
+
     var xAxis = d3.svg.axis()
       .scale(x)
       .orient("bottom");
@@ -67,7 +67,7 @@ $(function() {
         .attr("x", function(d) { return x(d.value) - 3; })
         .attr("y", barHeight / 2.5)
         .attr("dy", ".35em")
-        .text(function(d) { return d.value; });
+        .text(function(d) { return "$ " + d.value.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); });
 
     chart.append("g")
       .attr("class", "axis")
