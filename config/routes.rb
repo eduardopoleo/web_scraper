@@ -3,15 +3,14 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'professors#index'
+  root 'staff#index'
 
-  resources :professors, only: [:index]
+  resources :staff, only: [:index]
   # Example of regular route:
-  get 'all_salaries' => 'professors#all_salaries', :defaults => { :format => 'json' }
-  get 'professors_only' => 'professors#professors_only', :defaults => { :format => 'json' }
-  get 'administrative_staff' => 'professors#administrative_staff', :defaults => { :format => 'json' }
+  get 'all_salaries' => 'staff#all_salaries', :defaults => { :format => 'json' }
+  get 'professors_only' => 'staff#professors_only', :defaults => { :format => 'json' }
+  get 'administrative_staff' => 'staff#administrative_staff', :defaults => { :format => 'json' }
 
-  get 'average_for_professors' => 'professors#average_for_professors', :defaults => { :format => 'json' }
 
 
   # Example of named route that can be invoked with purchase_url(id: product.id)

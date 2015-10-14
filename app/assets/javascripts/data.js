@@ -14,7 +14,8 @@ $(function() {
      url: url,
      dataType: 'json',
      success: function (data) {
-       draw(data["professors"]);
+       console.log(data)
+       draw(data["staff"]);
      },
      error: function (result) {
          error();

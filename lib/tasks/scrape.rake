@@ -23,7 +23,7 @@ namespace :scrape do
         salary = row.at('td[5]').text.strip.gsub(/[$\,]/, "").to_f
         taxable_benefits = row.at('td[6]').text.strip.gsub(/[$\,]/, "").to_f
 
-        Professor.create(
+        Staff.create(
           university: university,
           last_name: last_name,
           name: name,
