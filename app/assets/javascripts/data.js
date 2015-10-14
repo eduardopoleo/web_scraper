@@ -34,7 +34,7 @@ $(function() {
     var x = d3.scale.linear()
         .range([0, width])
         .domain([0, 245852.56]);
-        //This magic number is the max value among all my data sets
+        //This magic number is the max average_salary among all my data sets
         // I do this so that the bars make sense agains each other.
 
     var xAxis = d3.svg.axis()
@@ -42,7 +42,7 @@ $(function() {
       .orient("bottom");
 
     var y = d3.scale.ordinal()
-        .domain(data.map(function(d) {return d.name; }))
+        .domain(data.map(function(d) {return d.university; }))
         .rangeRoundBands([10  , height - 100], -1);
 
     var yAxis = d3.svg.axis()
@@ -61,14 +61,14 @@ $(function() {
         .attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; });
 
     bar.append("rect")
-        .attr("width", function(d) { return x(d.value); })
+        .attr("width", function(d) { return x(d.average_salary); })
         .attr("height", barHeight - 8);
 
     bar.append("text")
-        .attr("x", function(d) { return x(d.value) - 3; })
+        .attr("x", function(d) { return x(d.average_salary) - 3; })
         .attr("y", barHeight / 2.5)
         .attr("dy", ".35em")
-        .text(function(d) { return "$ " + d.value.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); });
+        .text(function(d) { return "$ " + d.average_salary.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,'); });
 
     chart.append("g")
       .attr("class", "axis")
