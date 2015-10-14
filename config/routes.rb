@@ -7,9 +7,9 @@ Rails.application.routes.draw do
 
   resources :staff, only: [:index]
   # Example of regular route:
-  get 'all_salaries' => 'staff#all_salaries', :defaults => { :format => 'json' }
-  get 'professors_only' => 'staff#professors_only', :defaults => { :format => 'json' }
-  get 'administrative_staff' => 'staff#administrative_staff', :defaults => { :format => 'json' }
+  get 'all_salaries' => 'averages#all_salaries', :defaults => { :format => 'json' }
+  get 'professors_only' => 'averages#professors_only', :defaults => { :format => 'json' }
+  get 'administrative_staff' => 'averages#administrative_staff', :defaults => { :format => 'json' }
 
 
 

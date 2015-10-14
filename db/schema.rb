@@ -11,7 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151014164905) do
+ActiveRecord::Schema.define(version: 20151014170938) do
+
+  create_table "averages", force: :cascade do |t|
+    t.string   "university"
+    t.string   "use_case"
+    t.float    "average_salary"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "staffs", force: :cascade do |t|
     t.string   "university"

@@ -2,6 +2,7 @@ namespace :scrape do
   desc "Scrape data from University disclosure"
 
   task scraping_data: :environment do
+    #Scrapping data 
     require 'mechanize'
     agent = Mechanize.new
     page = agent.get('http://www.fin.gov.on.ca/en/publications/salarydisclosure/pssd/orgs-tbs.php?year=2014&organization=universities&page=1')
@@ -34,8 +35,40 @@ namespace :scrape do
       end
     end
 
-    final_time = Time.now
-    time_elapse = (final_time - initial_time)
-    puts "--->Time elapsed: #{time_elapse} seconds"
+    #calculating averages
+    def salary_averages(staff, use_case)
+      universities = staff.map{|p| p.university}.uniq
+      data = []
+
+      universities.each do |university|
+        university_staff = staff.select{|s| s.university == university}
+        average_salary = (university_staff.map{|p| p.salary}.reduce(:+)/university_staff.count).round(2)
+        
+        Average.create(
+          university: university,
+          use_case: use_case,
+          average_salary: average_salary
+        )
+      end
+    end
+    
+    puts "------------>Calculating overall salaries<---------------" 
+    staff = Staff.all
+    salary_averages(staff, "overall_salaries")
+    
+    puts "------------>Calculating Professors only<---------------" 
+    staff = Staff.where("title like ?", "%Professor%")
+    salary_averages(staff, "professors_only")
+
+    puts "------------>Calculating Administrative only<---------------" 
+    staff = Staff.where("title not like ?", "%Professor%")
+    salary_averages(staff, "administrative_only")
+
+    
+
+    # final_time = Time.now
+    # time_elapse = (final_time - initial_time)
+    # puts "--->Time elapsed: #{time_elapse} seconds"
   end
 end
+

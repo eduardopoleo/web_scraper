@@ -15,7 +15,7 @@ $(function() {
      dataType: 'json',
      success: function (data) {
        console.log(data)
-       draw(data["staff"]);
+       draw(data["averages"]);
      },
      error: function (result) {
          error();
