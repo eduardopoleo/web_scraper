@@ -3,7 +3,7 @@ $(function() {
 
   $('.choice').click(function(e) {
     var url = e.target.defaultValue
-    $('.chart').empty()
+    $(".chart").empty()
     ajax_call(url)
   });
 
