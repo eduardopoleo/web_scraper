@@ -1,0 +1,33 @@
+<script type="text/javascript">
+  w = 500;
+  h = 50;
+  var dataSet = [5, 10, 15, 20, 25];
+
+  // In the case of svg we need to create the container
+  //and then we proceed to sdeat
+  // Initialize the container and store it
+  // Initialize the circles from the container and store them
+  // Give styling to the circles
+
+  var svg = d3.select("body")
+              .append("svg")
+              .attr("heigth", h)
+              .attr("width", w)
+
+  var circles = svg.selectAll("circle")
+                   .data(dataSet)
+                   .enter()
+                   .append("circle")
+
+  circles.attr("cx", function (d, i) {
+            return i * 50 + 25
+         })
+         .attr("cy", h/2)
+         .attr("r", function (d) {return d })
+         .attr("fill", "yellow")
+         .attr("stroke", "orange")
+         .attr("stroke-width", function (d) {
+           return d/2
+         })
+
+</script>

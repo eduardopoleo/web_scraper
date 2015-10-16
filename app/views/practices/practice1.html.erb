@@ -9,19 +9,19 @@
   // you need a function here cus:
     // d has to be managed by something otherwise its undefined parameter
     // a function is adequate cus It allows you to do additionnal operation with the data
-  //fd can be chained with everything there is !! style, text, etc
+  //fd
+
   d3.select("body").selectAll("p")
     .data(dataSet)
     .enter()
     .append("p")
-    .text(function(d) {return "I can count up to " + d})
-    .style("color", function(d){
+    .text(function (d) { return d})
+    .style("color", function (d) {
       if (d > 15){
         return "red"
-      } else{
+      }else{
         return "blue"
       }
     });
-
   console.log(d3.selectAll("p"))
 </script>

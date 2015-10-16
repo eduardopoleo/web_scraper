@@ -1,16 +1,29 @@
-<div class="bar">
-
-</div>
-
 <style media="screen">
   div.bar{
     display: inline-block;
     width: 20px;
-    height: 75px;   /* We'll override height later */
     background-color: teal;
+    margin-right: 2px;
   }
 </style>
 
 <script type="text/javascript">
+var dataSet = [ ];
 
+  for (var i = 0; i < 25; i++){
+    var newNumber = Math.random() * 30
+    dataSet.push(newNumber);
+  }
+
+  d3.select("body").selectAll("div")
+    .data(dataSet)
+    .enter()
+    .append("div")
+    .attr("class", "bar")
+    .style("height", function(d) {
+      var barHeight = d * 5;
+      return barHeight + "px";
+    });
+
+  console.log("dataset", dataSet);
 </script>
