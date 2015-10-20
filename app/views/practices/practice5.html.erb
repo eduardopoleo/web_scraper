@@ -11,18 +11,43 @@ var dataset = [
 //Domains contain the possible values that can be passed into the function
 //Range refers to all possible outputs contain.
 
-var xScale = d3.scale.linear()
-                     .domain([0, d3.max(dataset, function (d) {return d[0]; })])
-                     .range([padding, w - padding * 5])
+var xScale = d3.scale.linear() //is a d3 object that is a scale and is of the linear type
+                     .domain([0, d3.max(dataset, function (d) {return d[0]; })])//all posible inputs, returns the max value after iterating over the collection
+                     .range([padding, w - padding * 5])// all possible outputs, it account for svg padding
 //max iterates over the passed collection and returns the max value.
 var yScale = d3.scale.linear()
                      .domain([0, d3.max(dataset, function (d) {return d[1]; })])
                      .range([h - padding, padding])
+                     //We do not have to think about inverting anymore this does it for us
+                     // Normally we would have
+                     //domain [0, 10]
+                     //range [0, 20]
+                     //But what this means is that smalleer values of domain are map to smalleer
+                     //values in range ex 0 --> 0
+                     //This will make smaller values of d map higher do to the way svg works
+                     //range [20, 0] is the opposite
+                     //Smaller values of domain will be mapped to higher values of range
+                     //which visually pushes them down to the bottom just becuase of the way svg works
 
 var rScale = d3.scale.linear()
                      .domain([0, d3.max(dataset, function (d) {return d[1]; })])
                      .range([2, 5])
 
+//Conclusion
+//For scales basically all we have to do is to set a domain and range
+// these domains and ranges depend usually consist in values calculated from the max value
+//in the dataset and the padding
+//Inver the y scales if needed depending of the graph
+//Then we just wrap the values in the scale
+
+//A full simple graph is then
+//Set reference values w, h, padding
+//Set scales
+//Initialize the svg inside the document body with its h and w
+//Initilize the data joins inside the svg
+//Set data attributes and map them with the previously define scales
+//Plot the axes
+//Add transitions
 
 var svg = d3.select("body")
         .append("svg")

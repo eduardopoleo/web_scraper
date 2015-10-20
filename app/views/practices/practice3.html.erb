@@ -14,16 +14,20 @@
               .attr("heigth", h)
               .attr("width", w)
 
+//This data join we do for data that is going to change in size and we do not
+//know really know how much of it is there
   var circles = svg.selectAll("circle")
                    .data(dataSet)
                    .enter()
                    .append("circle")
 
+//for svg the point of reference starts on the upper left corner of the svg
+//container.
   circles.attr("cx", function (d, i) {
             return i * 50 + 25
-         })
-         .attr("cy", h/2)
-         .attr("r", function (d) {return d })
+         }) //x distance
+         .attr("cy", h/2) //y distance
+         .attr("r", function (d) {return d }) //radius
          .attr("fill", "yellow")
          .attr("stroke", "orange")
          .attr("stroke-width", function (d) {
