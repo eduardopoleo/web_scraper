@@ -1,10 +1,34 @@
 <script type="text/javascript">
-  var h = 200;
-  var w = 500;
+  var h = 250;
+  var w = 600;
+  var padding = 30;
   var barPadding = 1;
 
   var dataSet = [ 5, 10, 13, 19, 21, 25, 22, 18, 15, 13,
-                  11, 12, 15, 20, 18,19, 21, 25, 22, 18, 15, 13] ;
+                11, 12, 15, 20, 18, 17, 16, 18, 23, 25 ];
+
+
+  var xScale = d3.scale.ordinal()//ordinal because there is no data to stablish where a given rect should go
+                       .domain(d3.range(dataSet.length))//[0,1,2.. ] indexing is probably the most logical domain in this case
+                       .rangeRoundBands([0, w], 0.05);//from zero to the full width, with 5% space in between, and round
+
+  var yScale = d3.scale.linear()//linear cus in this case it does apply
+                       .domain([0, d3.max(dataSet, function (d) { return d})]) //from zero to max value in the dataSet
+                       .range([0, h ])//in this case since y is heigh and not position goes from zero to the max posible height which is the height of the svg container
+// IMP! the range is different than in the scatter plot, this is because
+// the value that comes out the scale transformation is have a different meaning
+// before was position so it made sense to inverted
+// but now it is only height which will allow to go from 0 the the complete height of the
+
+//Ordinal When we want to scale data that goes from left to right but do not have an specific linear values was reference
+// normally would be ["apple", "oranges", "fish"] in this case corresponds to the indexes of the bars elements [1,2,4...]
+//d3.range(n) I guess produces an array of n numbers [0, 1, 2...n-1]
+// this is an special case cus the value in the bars in the y x does not have it
+// but we still want to make our char "responsive" to different sizes of data values
+// rangeRoundBands the width of each band by :
+//  (w - 0) / xScale.domain().length
+// the uses 5 % of the calculated width and leaves it as padding in between elements
+//Finally rouds the result for the width e.g 12.4445 -> 12
 
   var svg = d3.select("body")
               .append("svg")
@@ -16,21 +40,21 @@
      .enter()
      .append("rect")
      .attr({
-          x: function(d, i) { return i * (w / dataSet.length); }, //a function of index and w and datasetlen
-          y: function(d) { return h - (d * 4); }, //inverse, and a function of  h, and d
-          width: w / dataSet.length - barPadding, //function of w, dataset and padding
-          height: function(d) { return d * 4; }, //function of d
-          fill: function(d) { return "rgb(0, 0, " + (d * 10) + ")"; } //function of d
+          x: function(d, i) { return xScale(i); }, // remember that this value does not depend on d but on the index
+          y: function(d) { return h - yScale(d); },//this position has to be inverted
+          width: xScale.rangeBand(),//?
+          height: function(d) { return yScale(d); },
+          fill: function(d) { return "rgb(0, 0, " + (d * 10) + ")"; }
      })
-     // I think x, y and width can be mapped using a defined scale.
-     //Text have to be added from the svg using selectAll
+
      svg.selectAll("text")
       .data(dataSet)
       .enter()
       .append('text')
       .text(function (d) { return d })
-      .attr("x", function (d, i) { return i * (w / dataSet.length) + 5; })
-      .attr("y", function (d) { return h - (d * 4) + 15;})
+      .attr("text-anchor", "middle") //what's this ?
+      .attr("x", function (d, i) { return  xScale(i) + xScale.rangeBand() / 2 })
+      .attr("y", function (d) { return h - yScale(d) + 14})
       .attr("font-family", "sans-serif")
       .attr("font-size", "11px")
       .attr("fill", "white")
