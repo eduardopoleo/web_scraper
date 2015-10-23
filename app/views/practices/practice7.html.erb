@@ -1,3 +1,4 @@
+<p>Click on this text to update the chart with new data values (once).</p>
 <script type="text/javascript">
   var h = 250;
   var w = 600;
@@ -13,8 +14,10 @@
                        .rangeRoundBands([0, w], 0.05);//from zero to the full width, with 5% space in between, and round
 
   var yScale = d3.scale.linear()//linear cus in this case it does apply
-                       .domain([0, d3.max(dataSet, function (d) { return d})]) //from zero to max value in the dataSet
-                       .range([0, h ])//in this case since y is heigh and not position goes from zero to the max posible height which is the height of the svg container
+                       .domain([0, d3.max(dataSet)]) //from zero to max value in the dataSet
+                       .range([0, h ])
+  
+                    //in this case since y is heigh and not position goes from zero to the max posible height which is the height of the svg container
 // IMP! the range is different than in the scatter plot, this is because
 // the value that comes out the scale transformation is have a different meaning
 // before was position so it made sense to inverted
@@ -59,7 +62,54 @@
       .attr("font-size", "11px")
       .attr("fill", "white")
 
+///////////////On click after this///////////////////////
+      d3.select("p") //Does d3 has its own events handler?
+          .on("click", function() {
+            var numValues = dataSet.length;               //Count original length of dataSet
+            dataSet = [];                                       //Initialize empty array
+            for (var i = 0; i < numValues; i++) {               //Loop numValues times
+                var newNumber = Math.floor(Math.random() * 25); //New random integer (0-24)
+                dataSet.push(newNumber);                        //Add new number to array
+            }
 
+        //Update all rects
+        // When updating there is no need to use the enter keyword because the
+        // the exact same rects are there it is only a matter of updating the
+        //data they are bound to
+        svg.selectAll("rect")
+           .data(dataSet)
+           .transition()
+           .delay(function(d, i) {
+               return i / dataSet.length * 1000;
+           })
+           .duration(500) //I think this work here becuase d3 knows that this is an update
+           .attr("y", function(d) {
+                return h - yScale(d);
+           })
+           .attr("height", function(d) {
+                return yScale(d);
+           })
+           .attr("fill", function(d) {   // <-- Down here!
+                return "rgb(0, 0, " + (d * 10) + ")";
+           });
+        //Same idea we only need to rebind the rects to new data
+        svg.selectAll("text")
+          .data(dataSet)
+          .transition()
+          .delay(function(d, i) {
+              return i / dataSet.length * 1000;
+          })
+          .duration(500)
+          .text(function(d) {
+               return d;
+          })
+          .attr("x", function(d, i) {
+               return xScale(i) + xScale.rangeBand() / 2;
+          })
+          .attr("y", function(d) {
+               return h - yScale(d) + 14;
+          });
+      });
   //Make the
   // There is a little trick with the y and the height attribute why is this
 </script>
