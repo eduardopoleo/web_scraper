@@ -40,12 +40,13 @@ $(function() {
                             .domain([0, d3.max(dataSet, function (d) {
                              return d.average_salary
                             })])
-                            .range([xPadding, w - xMargin])
+                            .range([xPadding, w - xMargin - xPadding])
 
     var yScale = d3.scale.ordinal()
                             .domain(d3.range(dataSet.length))
                             .rangeRoundBands([0, (h - 1.2 * yPadding )], 0.05)
 
+    //Updating the rects
     var rects = d3.select("g")
                 .selectAll("rect")
                 .data(dataSet)
@@ -79,8 +80,34 @@ $(function() {
         rects.exit()
            .transition()
            .duration(500)
-           .attr("x", 0)  // <-- Exit stage left
+           .attr("x", w)  // <-- Exit stage left
            .remove();
+
+     var yAxisScale = d3.scale.ordinal()
+                                 .domain(dataSet.map(function (d) {
+                                   return d.university
+                                 }))
+                                 .rangeRoundBands([0, (h - 1.2 * yPadding )], 0.05)
+
+     var xAxis = d3.svg.axis()
+                   .scale(xScale)
+                   .orient("bottom")
+                   .ticks(5)
+
+     var yAxis = d3.svg.axis()
+                   .scale(yAxisScale)
+                   .orient("left")
+      //Updating the axis of this motherfucker
+        svg.select(".x.axis")
+        .transition()
+        .duration(1000)
+        .call(xAxis);
+
+  //Update y-axis
+        svg.select(".y.axis")
+        .transition()
+        .duration(1000)
+        .call(yAxis);
   }
 
   function draw(dataSet) {
@@ -109,7 +136,7 @@ $(function() {
                             .domain([0, d3.max(dataSet, function (d) {
                              return d.average_salary
                             })])
-                            .range([xPadding, w - xMargin])
+                            .range([xPadding, w - xMargin - xPadding])
 
     var yScale = d3.scale.ordinal()
                             .domain(d3.range(dataSet.length))
@@ -164,14 +191,12 @@ $(function() {
                   .orient("left")
 
     svg.append("g")
-          .attr("class", "axis")
+          .attr("class", "x axis")
           .attr("transform", "translate(0," + (h - yPadding) + ")")
           .call(xAxis);
 
     svg.append("g")
-          .attr("class", "axis")
+          .attr("class", "y axis")
           .call(yAxis);
-
-
   }
 });
