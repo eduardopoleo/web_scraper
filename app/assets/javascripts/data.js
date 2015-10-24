@@ -1,16 +1,21 @@
 $(function() {
-  url = 'administrative_staff'
-  ajax_call(url)
+  url = 'all_salaries'
+  ajax_call(url, draw)
 
-  function ajax_call(url) {
+  //Will handle the updates, new enters and exits
+  $('.choice').click(function(e) {
+      var url = e.target.defaultValue
+      ajax_call(url, update)
+  });
+
+  function ajax_call(url, callback) {
     $.ajax({
      type: "GET",
      contentType: "application/json; charset=utf-8",
      url: url,
      dataType: 'json',
      success: function (data) {
-       console.log(data["averages"])
-       draw(data["averages"])
+       callback(data["averages"])
      },
      error: function (result) {
          error();
@@ -18,6 +23,65 @@ $(function() {
     });
   }
 
+  //Draws the initial rectangles. It only manages the enter() joins
+  function update(dataSet) {
+    var w = 800
+    var h = 1250
+
+    var xPadding = 10
+    var yPadding = 20
+
+    var xMargin = 200
+    var yMargin = 0
+
+    var rectMargin = 5
+
+    var xScale = d3.scale.linear()
+                            .domain([0, d3.max(dataSet, function (d) {
+                             return d.average_salary
+                            })])
+                            .range([xPadding, w - xMargin])
+
+    var yScale = d3.scale.ordinal()
+                            .domain(d3.range(dataSet.length))
+                            .rangeRoundBands([0, (h - 1.2 * yPadding )], 0.05)
+
+    var rects = d3.select("svg")
+                .selectAll("rect")
+                .data(dataSet)
+
+        rects.enter()
+            .append("rect")
+            .attr("x", xPadding)
+            .attr("y", function (d, i) {
+              return yScale(i)
+            })
+            .attr("width", function (d) {
+              return xScale(d.average_salary)
+            })
+            .attr("height", function () {
+              return h/dataSet.length - rectMargin
+            })
+
+        rects.transition()
+            .duration(500)
+            .attr("x", xPadding)
+            .attr("y", function (d, i) {
+              return yScale(i)
+            })
+            .attr("width", function (d) {
+              return xScale(d.average_salary)
+            })
+            .attr("height", function () {
+              return h/dataSet.length - rectMargin
+            })
+
+        rects.exit()
+           .transition()
+           .duration(500)
+           .attr("y", yScale.rangeBand())  // <-- Exit stage left
+           .remove();
+  }
 
   function draw(dataSet) {
     var w = 800
@@ -62,13 +126,13 @@ $(function() {
                     .append("rect")
                     .attr("x", xPadding)
                     .attr("y", function (d, i) {
-                    return yScale(i)
+                      return yScale(i)
                     })
                     .attr("width", function (d) {
-                    return xScale(d.average_salary)
+                      return xScale(d.average_salary)
                     })
                     .attr("height", function () {
-                    return h/dataSet.length - rectMargin
+                      return h/dataSet.length - rectMargin
                     })
 
     svg.selectAll("text")
@@ -106,5 +170,7 @@ $(function() {
     svg.append("g")
           .attr("class", "axis")
           .call(yAxis);
-          }
+
+
+  }
 });
