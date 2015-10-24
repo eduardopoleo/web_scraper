@@ -46,7 +46,7 @@ $(function() {
                             .domain(d3.range(dataSet.length))
                             .rangeRoundBands([0, (h - 1.2 * yPadding )], 0.05)
 
-    var rects = d3.select("svg")
+    var rects = d3.select("g")
                 .selectAll("rect")
                 .data(dataSet)
 
@@ -79,7 +79,7 @@ $(function() {
         rects.exit()
            .transition()
            .duration(500)
-           .attr("y", yScale.rangeBand())  // <-- Exit stage left
+           .attr("x", 0)  // <-- Exit stage left
            .remove();
   }
 
@@ -101,7 +101,8 @@ $(function() {
                   .attr("width", w)
                   .attr("height", h)
                   .append("g")
-                  .attr("transform", "translate(" + xMargin + "," + yMargin + ")");
+                  .attr("transform", "translate(" + xMargin + "," + yMargin + ")")
+                  .attr();
 
     // In order for the left axis to show I need to translate the chart enough
     var xScale = d3.scale.linear()
