@@ -59,21 +59,21 @@
     d3.select("p")
       .on("click", function() {
         //Remove one value from dataset
-        var numValues = Math.floor(Math.random() * 100);;               //Count original length of dataSet
+        var numValues = Math.floor(Math.random() * 100);;
         dataset = [];
-                                     //Initialize empty array
-        for (var i = 0; i < numValues; i++) {               //Loop numValues times
-            var newNumber = Math.floor(Math.random() * 25); //New random integer (0-24)
-            dataset.push(newNumber);                        //Add new number to array
+
+        for (var i = 0; i < numValues; i++) {
+            var newNumber = Math.floor(Math.random() * 25);
+            dataset.push(newNumber);
         }
 
         //Update scale domains
-        xScale.domain(d3.range(dataset.length));	//Recalibrate the x scale domain, given the new length of dataset
-        yScale.domain([0, d3.max(dataset)]);		//Recalibrate the y scale domain, given the new max value in dataset
+        xScale.domain(d3.range(dataset.length));
+        yScale.domain([0, d3.max(dataset)]);
         //Select…
-        var bars = svg.selectAll("rect")			//Select all bars
-          .data(dataset);							//Re-bind data to existing bars, return the 'update' selection
-                              //'bars' is now the update selection
+        var bars = svg.selectAll("rect")
+          .data(dataset);
+                              
 
         //Enter…
         bars.enter()								//References the enter selection (a subset of the update selection)
