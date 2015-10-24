@@ -10,6 +10,7 @@ $(function() {
      dataType: 'json',
      success: function (data) {
        console.log(data["averages"])
+       draw(data["averages"])
      },
      error: function (result) {
          error();
@@ -17,29 +18,16 @@ $(function() {
     });
   }
 
-  dataSet = [
-    {
-      university: "Algoma",
-      average: 3
-    },
-
-    {
-      university: "Queens",
-      average: 5
-    },
-    {
-      university: "Queens",
-      average: 8
-    }
-  ]
-  draw(dataSet)
 
   function draw(dataSet) {
-    w = 100
-    h = 200
-    rectMargin = 5
+    var w = 600
+    var h = 1250
+
+    var xPadding = 10
+    var yPadding = 20
 
 
+    var rectMargin = 5
 
     svg = d3.select('body')
             .append('svg')
@@ -48,25 +36,69 @@ $(function() {
 
     var xScale = d3.scale.linear()
                          .domain([0, d3.max(dataSet, function (d) {
-                           return d.average
+                           return d.average_salary
                          })])
-                         .range([0, w])
+                         .range([xPadding, w - xPadding])
 
+    var yScale = d3.scale.ordinal()
+                          .domain(d3.range(dataSet.length))
+                          .rangeRoundBands([0, (h - 1.2 * yPadding )], 0.05)
+
+    var yAxisScale = d3.scale.ordinal()
+                            .domain(dataSet.map(function (d) {
+                              return d.university
+                            }))
+                            .rangeRoundBands([0, (h - 1.2 * yPadding )], 0.05)
+                            
     rects = svg.selectAll('rect')
                .data(dataSet)
                .enter()
                .append("rect")
-               .attr("x", 0)
+               .attr("x", xPadding)
                .attr("y", function (d, i) {
-                 return h / dataSet.length * i
+                 return yScale(i)
                })
                .attr("width", function (d) {
-                 return xScale(d.average)
+                 return xScale(d.average_salary)
                })
                .attr("height", function () {
                  return h/dataSet.length - rectMargin
                })
+
+    svg.selectAll("text")
+              .data(dataSet)
+              .enter()
+              .append("text")
+              .text(function (d) {
+                return d.average_salary
+              })
+              .attr("x", function (d) {
+                return xScale(d.average_salary) - 40 //magic
+              })
+              .attr("text-anchor", "middle")
+              .attr("y", function (d, i) {
+                return yScale(i) + yScale.rangeBand() / 1.7;//magic
+              })
+              .attr("font-family", "sans-serif")
+              .attr("font-size", "11px")
+              .attr("fill", "red");
+
+    var xAxis = d3.svg.axis()
+                      .scale(xScale)
+                      .orient("bottom")
+                      .ticks(10)
+
+    var yAxis = d3.svg.axis()
+                      .scale(yAxisScale)
+                      .orient("left")
+
+    svg.append("g")
+       .attr("class", "axis")
+       .attr("transform", "translate(0," + (h - yPadding) + ")")
+       .call(xAxis);
+
+    svg.append("g")
+      .attr("class", "axis")
+      .call(yAxis);
   }
-
-
 });
