@@ -10,6 +10,7 @@
     var xScale = d3.scale.ordinal()
             .domain(d3.range(dataset.length))
             .rangeRoundBands([0, w], 0.05);
+            
     var yScale = d3.scale.linear()
             .domain([0, d3.max(dataset)])
             .range([0, h]);
@@ -73,7 +74,7 @@
         //Select…
         var bars = svg.selectAll("rect")
           .data(dataset);
-                              
+
 
         //Enter…
         bars.enter()								//References the enter selection (a subset of the update selection)

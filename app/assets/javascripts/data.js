@@ -25,7 +25,7 @@ $(function() {
 
   //Draws the initial rectangles. It only manages the enter() joins
   function update(dataSet) {
-    var w = 800
+    var w = 1000
     var h = 1250
 
     var xPadding = 10
@@ -37,9 +37,7 @@ $(function() {
     var rectMargin = 5
 
     var xScale = d3.scale.linear()
-                            .domain([0, d3.max(dataSet, function (d) {
-                             return d.average_salary
-                            })])
+                            .domain([0, 246000])
                             .range([xPadding, w - xMargin - xPadding])
 
     var yScale = d3.scale.ordinal()
@@ -163,7 +161,7 @@ var labels = d3.select('.labels')
   }
 
   function draw(dataSet) {
-    var w = 800
+    var w = 1000
     var h = 1250
 
     var xPadding = 10
@@ -184,9 +182,7 @@ var labels = d3.select('.labels')
 
     // In order for the left axis to show I need to translate the chart enough
     var xScale = d3.scale.linear()
-                            .domain([0, d3.max(dataSet, function (d) {
-                             return d.average_salary
-                            })])
+                            .domain([0, 246000])
                             .range([xPadding, w - xMargin - xPadding])
 
     var yScale = d3.scale.ordinal()
