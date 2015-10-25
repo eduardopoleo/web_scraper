@@ -45,56 +45,16 @@ $(function() {
     var yScale = d3.scale.ordinal()
                             .domain(d3.range(dataSet.length))
                             .rangeRoundBands([0, (h - 1.2 * yPadding )], 0.05)
-                            
-/////////Updating labels /////////////////
-var labels = d3.select('.labels')
-               .selectAll('.amount')
-               .data(dataSet)
 
-   labels.enter()
-        .append("text")
-        .text(function (d) {
-          return d.average_salary
-        })
-        .attr("x", function (d) {
-          return xScale(d.average_salary) - 40 //magic
-        })
-        .attr("text-anchor", "middle")
-        .attr("class", "amount")
-        .attr("y", function (d, i) {
-          return yScale(i) + yScale.rangeBand() / 1.7;//magic
-        })
-        .attr("font-family", "sans-serif")
-        .attr("font-size", "11px")
-        .attr("fill", "red");
-
-  labels.transition()
-       .duration(500)
-       .text(function (d) {
-         return d.average_salary
-       })
-       .attr("x", function (d) {
-         return xScale(d.average_salary) - 40 //magic
-       })
-       .attr("text-anchor", "middle")
-       .attr("class", "amount")
-       .attr("y", function (d, i) {
-         return yScale(i) + yScale.rangeBand() / 1.7;//magic
-       })
-       .attr("font-family", "sans-serif")
-       .attr("font-size", "11px")
-       .attr("fill", "red");
-
-   labels.exit()
-      .transition()
-      .duration(500)
-      .attr("x", w)  // <-- Exit stage left
-      .remove();
 
     //Updating the rects/////////////////////////////////
-    var rects = d3.select("g")
+    var key = function(d) {
+        return d.university;
+    };
+
+    var rects = d3.select(".rects")
                 .selectAll("rect")
-                .data(dataSet)
+                .data(dataSet, key)
 
         rects.enter()
             .append("rect")
@@ -127,6 +87,53 @@ var labels = d3.select('.labels')
            .duration(500)
            .attr("x", w)  // <-- Exit stage left
            .remove();
+
+/////////Updating labels /////////////////
+
+var labels = d3.select('.labels')
+               .selectAll('.amount')
+               .data(dataSet, key)
+
+   labels.enter()
+        .append("text")
+        .text(function (d) {
+          return d.average_salary
+        })
+        .attr("x", function (d) {
+          return xScale(d.average_salary) - 40 //magic
+        })
+        .attr("text-anchor", "middle")
+        .attr("class", "amount")
+        .attr("y", function (d, i) {
+          return yScale(i) + yScale.rangeBand() / 1.7;//magic
+        })
+        .attr("font-family", "sans-serif")
+        .attr("font-size", "11px")
+        .attr("fill", "red")
+
+  labels.transition()
+       .duration(500)
+       .text(function (d) {
+         return d.average_salary
+       })
+       .attr("x", function (d) {
+         return xScale(d.average_salary) - 40 //magic
+       })
+       .attr("text-anchor", "middle")
+       .attr("class", "amount")
+       .attr("y", function (d, i) {
+         return yScale(i) + yScale.rangeBand() / 1.7;//magic
+       })
+       .attr("font-family", "sans-serif")
+       .attr("font-size", "11px")
+       .attr("fill", "red");
+
+   labels.exit()
+      .transition()
+      .duration(500)
+      .attr("x", w)  // <-- Exit stage left
+      .remove();
+
 ///////////Updating axis///////////////
      var yAxisScale = d3.scale.ordinal()
                                  .domain(dataSet.map(function (d) {
@@ -172,9 +179,8 @@ var labels = d3.select('.labels')
                   .append('svg')
                   .attr("width", w)
                   .attr("height", h)
-                  .append("g")
+                  .append('g')
                   .attr("transform", "translate(" + xMargin + "," + yMargin + ")")
-                  .attr();
 
     // In order for the left axis to show I need to translate the chart enough
     var xScale = d3.scale.linear()
@@ -193,11 +199,14 @@ var labels = d3.select('.labels')
                                 }))
                                 .rangeRoundBands([0, (h - 1.2 * yPadding )], 0.05)
 
-    rects = svg.selectAll('rect')
+        rects = svg.append('g')
+                    .attr("class", "rects")
+                    .selectAll('rect')
                     .data(dataSet)
                     .enter()
                     .append("rect")
                     .attr("x", xPadding)
+
                     .attr("y", function (d, i) {
                       return yScale(i)
                     })
