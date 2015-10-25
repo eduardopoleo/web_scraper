@@ -45,8 +45,53 @@ $(function() {
     var yScale = d3.scale.ordinal()
                             .domain(d3.range(dataSet.length))
                             .rangeRoundBands([0, (h - 1.2 * yPadding )], 0.05)
+                            
+/////////Updating labels /////////////////
+var labels = d3.select('.labels')
+               .selectAll('.amount')
+               .data(dataSet)
 
-    //Updating the rects
+   labels.enter()
+        .append("text")
+        .text(function (d) {
+          return d.average_salary
+        })
+        .attr("x", function (d) {
+          return xScale(d.average_salary) - 40 //magic
+        })
+        .attr("text-anchor", "middle")
+        .attr("class", "amount")
+        .attr("y", function (d, i) {
+          return yScale(i) + yScale.rangeBand() / 1.7;//magic
+        })
+        .attr("font-family", "sans-serif")
+        .attr("font-size", "11px")
+        .attr("fill", "red");
+
+  labels.transition()
+       .duration(500)
+       .text(function (d) {
+         return d.average_salary
+       })
+       .attr("x", function (d) {
+         return xScale(d.average_salary) - 40 //magic
+       })
+       .attr("text-anchor", "middle")
+       .attr("class", "amount")
+       .attr("y", function (d, i) {
+         return yScale(i) + yScale.rangeBand() / 1.7;//magic
+       })
+       .attr("font-family", "sans-serif")
+       .attr("font-size", "11px")
+       .attr("fill", "red");
+
+   labels.exit()
+      .transition()
+      .duration(500)
+      .attr("x", w)  // <-- Exit stage left
+      .remove();
+
+    //Updating the rects/////////////////////////////////
     var rects = d3.select("g")
                 .selectAll("rect")
                 .data(dataSet)
@@ -82,7 +127,7 @@ $(function() {
            .duration(500)
            .attr("x", w)  // <-- Exit stage left
            .remove();
-
+///////////Updating axis///////////////
      var yAxisScale = d3.scale.ordinal()
                                  .domain(dataSet.map(function (d) {
                                    return d.university
@@ -163,7 +208,9 @@ $(function() {
                       return h/dataSet.length - rectMargin
                     })
 
-    svg.selectAll("text")
+    svg.append('g')
+        .attr('class', "labels")
+            .selectAll("text")
             .data(dataSet)
             .enter()
             .append("text")
@@ -173,6 +220,7 @@ $(function() {
             .attr("x", function (d) {
             return xScale(d.average_salary) - 40 //magic
             })
+            .attr("class", "amount")
             .attr("text-anchor", "middle")
             .attr("y", function (d, i) {
             return yScale(i) + yScale.rangeBand() / 1.7;//magic
