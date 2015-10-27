@@ -34,7 +34,26 @@ $(function() {
   var yMargin = 0
 
   var rectMargin = 5
-  
+
+  function calculateScales(dataSet) {
+
+    var xScale = d3.scale.linear()
+                            .domain([0, 246000])
+                            .range([xPadding, w - xMargin - xPadding])
+
+    var yScale = d3.scale.ordinal()
+                            .domain(d3.range(dataSet.length))
+                            .rangeRoundBands([0, (h - 1.2 * yPadding )], 0.05)
+
+    var yAxisScale = d3.scale.ordinal()
+                            .domain(dataSet.map(function (d) {
+                              return d.university
+                            }))
+                            .rangeRoundBands([0, (h - 1.2 * yPadding )], 0.05)
+
+    return [xScale, yScale, yAxisScale]
+  }
+
 
   function draw(dataSet) {
 
@@ -46,20 +65,12 @@ $(function() {
                   .attr("transform", "translate(" + xMargin + "," + yMargin + ")")
                   // If I do not translate the chart the labels do not show up for
                   // some stupid reason
+    var scales = calculateScales(dataSet)
 
-    var xScale = d3.scale.linear()
-                            .domain([0, 246000])
-                            .range([xPadding, w - xMargin - xPadding])
+    var xScale = scales[0]
+    var yScale = scales[1]
+    var yAxisScale = scales[2]
 
-    var yScale = d3.scale.ordinal()
-                            .domain(d3.range(dataSet.length))
-                            .rangeRoundBands([0, (h - 1.2 * yPadding )], 0.05)
-
-    var yAxisScale = d3.scale.ordinal()
-                                .domain(dataSet.map(function (d) {
-                                  return d.university
-                                }))
-                                .rangeRoundBands([0, (h - 1.2 * yPadding )], 0.05)
     var xAxis = d3.svg.axis()
                   .scale(xScale)
                   .orient("bottom")
@@ -122,19 +133,11 @@ $(function() {
   function update(dataSet) {
     //It is shitty that I have to copy the exact same code here
     //But there is not a clear solution cus th
-    var xScale = d3.scale.linear()
-                            .domain([0, 246000])
-                            .range([xPadding, w - xMargin - xPadding])
+    var scales = calculateScales(dataSet)
 
-    var yScale = d3.scale.ordinal()
-                            .domain(d3.range(dataSet.length))
-                            .rangeRoundBands([0, (h - 1.2 * yPadding )], 0.05)
-
-    var yAxisScale = d3.scale.ordinal()
-                             .domain(dataSet.map(function (d) {
-                               return d.university
-                             }))
-                             .rangeRoundBands([0, (h - 1.2 * yPadding )], 0.05)
+    var xScale = scales[0]
+    var yScale = scales[1]
+    var yAxisScale = scales[2]
 
     var xAxis = d3.svg.axis()
                  .scale(xScale)
