@@ -54,6 +54,19 @@ $(function() {
     return [xScale, yScale, yAxisScale]
   }
 
+  function calculateAxes(xScale, yAxisScale) {
+
+    var xAxis = d3.svg.axis()
+                  .scale(xScale)
+                  .orient("bottom")
+                  .ticks(5)
+
+    var yAxis = d3.svg.axis()
+                  .scale(yAxisScale)
+                  .orient("left")
+
+    return [xAxis, yAxis]
+  }
 
   function draw(dataSet) {
 
@@ -66,19 +79,13 @@ $(function() {
                   // If I do not translate the chart the labels do not show up for
                   // some stupid reason
     var scales = calculateScales(dataSet)
-
     var xScale = scales[0]
     var yScale = scales[1]
     var yAxisScale = scales[2]
 
-    var xAxis = d3.svg.axis()
-                  .scale(xScale)
-                  .orient("bottom")
-                  .ticks(5)
-
-    var yAxis = d3.svg.axis()
-                  .scale(yAxisScale)
-                  .orient("left")
+    var axes = calculateAxes(xScale, yAxisScale)
+    var xAxis = axes[0]
+    var yAxis = axes[1]
 
     rects = svg.append('g')
                 .attr("class", "rects")
@@ -134,19 +141,13 @@ $(function() {
     //It is shitty that I have to copy the exact same code here
     //But there is not a clear solution cus th
     var scales = calculateScales(dataSet)
-
     var xScale = scales[0]
     var yScale = scales[1]
     var yAxisScale = scales[2]
 
-    var xAxis = d3.svg.axis()
-                 .scale(xScale)
-                 .orient("bottom")
-                 .ticks(5)
-
-    var yAxis = d3.svg.axis()
-                 .scale(yAxisScale)
-                 .orient("left")
+    var axes = calculateAxes(xScale, yAxisScale)
+    var xAxis = axes[0]
+    var yAxis = axes[1]
 
     var key = function(d) {
       return d.university;
