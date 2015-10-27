@@ -2,7 +2,7 @@ $(function() {
   url = 'all_salaries'
   ajax_call(url, draw)
 
-  //Will handle the updates, new enters and exits
+  //Will handle the update, new enters and exits
   $('.choice').click(function(e) {
     var url = e.target.defaultValue
     ajax_call(url, update)
@@ -74,6 +74,7 @@ $(function() {
                   .append('svg')
                   .attr("width", w)
                   .attr("height", h)
+                  .attr("class", "graph")
                   .append('g')
                   .attr("transform", "translate(" + xMargin + "," + yMargin + ")")
                   // If I do not translate the chart the labels do not show up for
@@ -138,8 +139,6 @@ $(function() {
   }
 
   function update(dataSet) {
-    //It is shitty that I have to copy the exact same code here
-    //But there is not a clear solution cus th
     var scales = calculateScales(dataSet)
     var xScale = scales[0]
     var yScale = scales[1]

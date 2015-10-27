@@ -1,24 +1,32 @@
-<%= form_tag("/search", method: "get") do %>
-  <%= radio_button_tag(:age, "all_salaries", true, class: 'choice') %>
-  <%= label_tag(:age_child, "All Salaries") %>
-  <%= radio_button_tag(:age, "professors_only", false,  class: 'choice') %>
-  <%= label_tag(:age_adult, "Professors Only") %>
-  <%= radio_button_tag(:age, "administrative_staff", false, class: 'choice') %>
-  <%= label_tag(:age_adult, "Administrative Staff") %>
-<% end %>
+
+<h1 style="text-align: center;" >Public Sector Salary Disclosure for 2014: Universities</h1>
+<p style="text-align: center;">
+  <a  href="http://www.fin.gov.on.ca/en/publications/salarydisclosure/pssd/orgs-tbs.php?organization=universities&year=2014">Data Source</a>
+</p>
+
+<p style="text-align: center">
+  by <strong>Eduardo Poleo</strong>
+</p>
+
+<div style="text-align: center;">
+  <%= form_tag("/search", method: "get") do %>
+    <%= radio_button_tag(:age, "all_salaries", true, class: 'choice') %>
+    <%= label_tag(:age_child, "All Salaries") %>
+    <%= radio_button_tag(:age, "professors_only", false,  class: 'choice') %>
+    <%= label_tag(:age_adult, "Professors Only") %>
+    <%= radio_button_tag(:age, "administrative_staff", false, class: 'choice') %>
+    <%= label_tag(:age_adult, "Administrative Staff") %>
+  <% end %>
+</div>
 
 
 
 <style>
 
-.chart rect {
-  fill: steelblue;
-}
-
-.chart text {
-  fill: white;
-  font: 15px sans-serif;
-  text-anchor: end;
+.graph{
+  display: block;
+  margin: auto;
+  margin-top: 50px;
 }
 
 .tick text{
