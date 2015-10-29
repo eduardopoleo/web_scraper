@@ -16,7 +16,7 @@
   var yScale = d3.scale.linear()//linear cus in this case it does apply
                        .domain([0, d3.max(dataSet)]) //from zero to max value in the dataSet
                        .range([0, h ])
-  
+
                     //in this case since y is heigh and not position goes from zero to the max posible height which is the height of the svg container
 // IMP! the range is different than in the scatter plot, this is because
 // the value that comes out the scale transformation is have a different meaning

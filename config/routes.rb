@@ -3,9 +3,10 @@ Rails.application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'staff#index'
+  root 'staff#horizontal'
 
-  resources :staff, only: [:index]
+  get 'horizontal' => 'staff#horizontal'
+  get 'vertical' => 'staff#vertical'
 
   # Example of regular route:
   get 'all_salaries' => 'averages#all_salaries', :defaults => { :format => 'json' }

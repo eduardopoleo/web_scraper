@@ -1,5 +1,8 @@
 class StaffController < ApplicationController
-  def index
+  def horizontal
+  end
+
+  def vertical
   end
 end
 
