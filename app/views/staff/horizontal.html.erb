@@ -44,9 +44,7 @@ $(function() {
                             .rangeRoundBands([xPadding, w - xPadding], 0.05)
 
     var yScale = d3.scale.linear()
-                            .domain([0, d3.max(dataSet, function(d) {
-                                return d.average_salary;
-                            })])
+                            .domain([0, 246000])
                             .range([h - yPadding, yPadding +  yMargin])
 
 
@@ -84,6 +82,7 @@ $(function() {
                   // If I do not translate the chart the labels do not show up for
                   // some stupid reason
     var scales = calculateScales(dataSet)
+
     var xScale = scales[0]
     var yScale = scales[1]
     var xAxisScale = scales[2]
@@ -128,9 +127,9 @@ $(function() {
     var scales = calculateScales(dataSet)
     var xScale = scales[0]
     var yScale = scales[1]
-    var yAxisScale = scales[2]
+    var xAxisScale = scales[2]
 
-    var axes = calculateAxes(xScale, yAxisScale)
+    var axes = calculateAxes(xAxisScale, yScale )
     var xAxis = axes[0]
     var yAxis = axes[1]
 
@@ -169,12 +168,17 @@ $(function() {
       .remove();
 
 ///////////Updating axis///////////////
-  svg = d3.select(".graph")
 
     svg.select(".x.axis")
           .transition()
           .duration(1000)
-          .call(xAxis);
+          .call(xAxis)
+          .selectAll("text")
+          .attr("y", 0)
+          .attr("x", 9)
+          .attr("dy", ".35em")
+          .attr("transform", "rotate(70)")
+          .style("text-anchor", "start");
 
     svg.select(".y.axis")
           .transition()
