@@ -1,26 +1,15 @@
 <div class="container">
-  <div class="left-column">
-
-  </div>
-
   <div class="right-column">
-    <h4 style="text-align: left;" >Public Sector Salary Disclosure for 2014: Universities</h4>
-    <p style="text-align: left;">
+    <p style="text-align: center;">
       <a  href="http://www.fin.gov.on.ca/en/publications/salarydisclosure/pssd/orgs-tbs.php?organization=universities&year=2014">Data Source</a>
     </p>
 
-    <p style="text-align: left">
-      by <strong>Eduardo Poleo</strong>
-    </p>
-
-    <div style="text-align: left;">
+    <div style="text-align: center;">
         <%= form_tag() do %>
           <%= radio_button_tag(:average, "all_salaries", true, class: 'choice') %>
           <%= label_tag(:average_all_salaries, "All Salaries") %>
-          <br/>
           <%= radio_button_tag(:average, "professors_only", false,  class: 'choice') %>
           <%= label_tag(:average_professors_only, "Professors Only") %>
-          <br/>
           <%= radio_button_tag(:average, "administrative_staff", false, class: 'choice') %>
           <%= label_tag(:average_administrative_staff, "Administrative Staff") %>
         <% end %>
@@ -29,13 +18,6 @@
 </div>
 
 <style>
-.right-column{
-  float:right;
-}
-
-.left-column{
-  float:left;
-}
 
 .graph{
   display: block;
@@ -138,7 +120,7 @@ $(function() {
 
   function draw(dataSet) {
 
-    svg = d3.select('.left-column')
+    svg = d3.select('.container')
                   .append('svg')
                   .attr("width", w)
                   .attr("height", h)
