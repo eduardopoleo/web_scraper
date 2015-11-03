@@ -8,14 +8,14 @@
 </p>
 
 <div style="text-align: center;">
-  <%= form_tag("/search", method: "get") do %>
-    <%= radio_button_tag(:age, "all_salaries", true, class: 'choice') %>
-    <%= label_tag(:age_child, "All Salaries") %>
-    <%= radio_button_tag(:age, "professors_only", false,  class: 'choice') %>
-    <%= label_tag(:age_adult, "Professors Only") %>
-    <%= radio_button_tag(:age, "administrative_staff", false, class: 'choice') %>
-    <%= label_tag(:age_adult, "Administrative Staff") %>
-  <% end %>
+    <%= form_tag() do %>
+      <%= radio_button_tag(:average, "all_salaries", true, class: 'choice') %>
+      <%= label_tag(:average_all_salaries, "All Salaries") %>
+      <%= radio_button_tag(:average, "professors_only", false,  class: 'choice') %>
+      <%= label_tag(:average_professors_only, "Professors Only") %>
+      <%= radio_button_tag(:average, "administrative_staff", false, class: 'choice') %>
+      <%= label_tag(:average_administrative_staff, "Administrative Staff") %>
+    <% end %>
 </div>
 
 

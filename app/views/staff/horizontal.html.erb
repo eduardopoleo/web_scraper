@@ -32,7 +32,7 @@ $(function() {
 
   var xPadding = 50
   var yPadding = 20
-  var yMargin = 210
+  var yMargin = 0
 
   var xMargin = 200
 
@@ -45,8 +45,9 @@ $(function() {
 
     var yScale = d3.scale.linear()
                             .domain([0, 246000])
-                            .range([h - yPadding, yPadding +  yMargin])
+                            .range([h - yMargin - yPadding, 0])
 
+// .range([h - yPadding, yPadding +  yMargin])
 
     var xAxisScale = d3.scale.ordinal()
                             .domain(dataSet.map(function (d) {

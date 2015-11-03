@@ -1,5 +1,70 @@
-<%= render 'header' %>
+<div class="container">
+  <div class="left-column">
 
+  </div>
+
+  <div class="right-column">
+    <h4 style="text-align: left;" >Public Sector Salary Disclosure for 2014: Universities</h4>
+    <p style="text-align: left;">
+      <a  href="http://www.fin.gov.on.ca/en/publications/salarydisclosure/pssd/orgs-tbs.php?organization=universities&year=2014">Data Source</a>
+    </p>
+
+    <p style="text-align: left">
+      by <strong>Eduardo Poleo</strong>
+    </p>
+
+    <div style="text-align: left;">
+        <%= form_tag() do %>
+          <%= radio_button_tag(:average, "all_salaries", true, class: 'choice') %>
+          <%= label_tag(:average_all_salaries, "All Salaries") %>
+          <br/>
+          <%= radio_button_tag(:average, "professors_only", false,  class: 'choice') %>
+          <%= label_tag(:average_professors_only, "Professors Only") %>
+          <br/>
+          <%= radio_button_tag(:average, "administrative_staff", false, class: 'choice') %>
+          <%= label_tag(:average_administrative_staff, "Administrative Staff") %>
+        <% end %>
+    </div>
+  </div>
+</div>
+
+<style>
+.right-column{
+  float:right;
+}
+
+.left-column{
+  float:left;
+}
+
+.graph{
+  display: block;
+  margin: auto;
+}
+
+.tick text{
+  fill: black;
+  font: 15px sans-serif;
+}
+
+.axis text {
+  font: 10px sans-serif;
+}
+
+svg {
+  margin: 0px;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+</style>
+
+<!-- views/staff/vertical.html.erb -->
 <script type="text/javascript">
 $(function() {
   url = 'all_salaries'
@@ -28,7 +93,7 @@ $(function() {
 
   //General parameters:
   var w = 1000
-  var h = 1250
+  var h = 750
 
   var xPadding = 10
   var yPadding = 20
@@ -73,7 +138,7 @@ $(function() {
 
   function draw(dataSet) {
 
-    svg = d3.select('body')
+    svg = d3.select('.left-column')
                   .append('svg')
                   .attr("width", w)
                   .attr("height", h)
@@ -238,7 +303,6 @@ $(function() {
             .remove();
 
 ///////////Updating axis///////////////
-debugger;
     svg.select(".x.axis")
           .transition()
           .duration(1000)
