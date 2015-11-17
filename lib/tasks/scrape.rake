@@ -9,6 +9,14 @@ namespace :scrape do
     page_links = page.search("//thead/tr/td[2]/a")
     initial_time = Time.now
 
+    def cleaned_text(row, xpath)
+      row.at(xpath).text.strip
+    end
+
+    def money_value(row, xpath)
+      cleaned_text(row, xpath).tr("$,", "").to_f
+    end
+
     page_links.each do |link|
       page.link_with(text: "#{link.text}").click
 
@@ -17,20 +25,13 @@ namespace :scrape do
       rows = agent.page.search('//tbody/tr')
 
       rows.each do |row|
-        university = row.at('td[1]/span').text.strip
-        last_name =  row.at('td[2]').text.strip
-        name = row.at('td[3]').text.strip
-        title = row.at('td[4]/span').text.strip
-        salary = row.at('td[5]').text.strip.gsub(/[$\,]/, "").to_f
-        taxable_benefits = row.at('td[6]').text.strip.gsub(/[$\,]/, "").to_f
-
         Staff.create(
-          university: university,
-          last_name: last_name,
-          name: name,
-          title: title,
-          salary: salary,
-          taxable_benefits: taxable_benefits
+          university: cleaned_text(row, 'td[1]/span'),
+          last_name: cleaned_text(row, 'td[2]'),
+          name: cleaned_text(row, 'td[3]'),
+          title: cleaned_text(row, 'td[4]/span'),
+          salary: money_value(row, 'td[5]'),
+          taxable_benefits: money_value(row, 'td[6]')
         )
       end
     end
@@ -51,6 +52,7 @@ namespace :scrape do
         )
       end
     end
+
 
     puts "------------>Calculating overall salaries<---------------"
     staff = Staff.all
